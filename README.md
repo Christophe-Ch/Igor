@@ -1,0 +1,2 @@
+# Igor
+Basic discord bot
