@@ -1,0 +1,18 @@
+{
+    "commands": [
+        {"name": "prefix","grade": "0"},
+        {"name": "grant","grade": "0"},
+        {"name": "setWake", "grade": "0"},
+
+        {"name": "kick","grade": "1"},
+        {"name": "spam","grade": "1"},
+
+        {"name": "avatar","grade": "2"},
+        {"name": "ping","grade": "2"},
+        {"name": "who","grade": "2"},
+        
+        {"name": "register","grade": "3"},
+        {"name": "or","grade":"3"},
+        {"name": "nextUpdate","grade":"3"}
+    ]
+}

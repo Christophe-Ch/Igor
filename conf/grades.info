@@ -1,0 +1,19 @@
+There are 3 ranks :
+0 - God
+1 - Manager
+2 - User
+3 - Not registered
+
+== God ==
+No restrictions
+
+== Manager ==
+User that can also kick users, and broadcast messages
+
+== User ==
+Basic user
+
+== Not registered ==
+Can use the following commands:
+- ig-register
+- ig-or
