@@ -8,7 +8,7 @@ exports.prefix = (message, conf) => {
         conf.prefix = arg;
         conf.prefixlen = arg.length + 1;
 
-        confSaver.save("./conf/config.json", conf);
+        confSaver.save(conf, "./conf/config.json");
 
         message.channel.send("New prefix : " + arg);
     }

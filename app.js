@@ -5,6 +5,7 @@ let misc = require('./commands/miscellaneous/misc');
 
 const { Client } = require('discord.js');
 
+const mysql = require("mysql");
 const fs = require("fs");
 
 let conf = JSON.parse(fs.readFileSync("./conf/config.json", "utf8"));
@@ -13,11 +14,18 @@ let users = JSON.parse(fs.readFileSync("./conf/users.json", "utf8"));
 
 const client = new Client();
 
+let database;
+
 // Triggers when the bot starts
 client.on("ready", () => {
     console.log("I am ready!");
     client.user.setActivity("doing some stuff bro");
 
+    // Database
+    var dbconf = require('./conf/database.js');
+    database = dbconf.configure(mysql, fs);
+    
+    // Wake message
     client.guilds.forEach((guild) => {
         var wakeChannel = conf.wakeChannels.find((element) => {
             return element.serverId == guild.id;
@@ -45,11 +53,6 @@ client.on("ready", () => {
 // Triggers when the bot receives a message
 client.on("message", (message) => {
     if(!message.content.startsWith(conf.prefix)) return;
-
-    if(message.member.roles.find("name", "Beta-testeurs"))
-        console.log("oui");
-    else
-        console.log("non");
 
     var command = commands.commands.find((element) => {
         return element.name == message.content.substr(conf.prefixlen).split(' ')[0];
