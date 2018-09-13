@@ -1,5 +1,6 @@
 const { Attachment } = require('discord.js');
 const confSaver = require("./conf");
+var dbUtilities = require('../../conf/database.js');
 
 /* Kicks a specific user
 Works only if the user that triggered the command has the permission
@@ -21,7 +22,15 @@ exports.kick = (message) => {
 // Sends back the avatar of the author
 exports.avatar = (message) => message.channel.send(new Attachment(message.author.avatarURL.toString()));
 
-exports.register = (message, users) => {
-    users.users.push({"id": message.author.id, "grade": "2", "server": message.guild.id});
-    confSaver.save(users, "./conf/users.json")
+exports.register = async (message) => {
+    /*users.users.push({"id": message.author.id, "grade": "2", "server": message.guild.id});
+    confSaver.save(users, "./conf/users.json")*/
+    var query = await dbUtilities.execute("SELECT addUser(\"" + message.author.id + "\",\"" + message.guild.id + "\") AS result");
+
+    if(query != false && query[0].result){
+        message.channel.send(message.author.username + " joined us ! :tada:");
+    }
+    else{
+        message.channel.send("You are already registered... :confused:");
+    }
 }

@@ -1,3 +1,6 @@
+// Database
+var dbUtilities = require('./conf/database.js');
+
 // Command files
 let user_management = require('./commands/management/user_management');
 let bot_management = require('./commands/management/bot_management');
@@ -5,7 +8,6 @@ let misc = require('./commands/miscellaneous/misc');
 
 const { Client } = require('discord.js');
 
-const mysql = require("mysql");
 const fs = require("fs");
 
 let conf = JSON.parse(fs.readFileSync("./conf/config.json", "utf8"));
@@ -14,19 +16,18 @@ let users = JSON.parse(fs.readFileSync("./conf/users.json", "utf8"));
 
 const client = new Client();
 
-let database;
-
 // Triggers when the bot starts
 client.on("ready", () => {
     console.log("I am ready!");
     client.user.setActivity("doing some stuff bro");
 
     // Database
-    var dbconf = require('./conf/database.js');
-    database = dbconf.configure(mysql, fs);
-    
+    dbUtilities.configure(fs);
+
     // Wake message
-    client.guilds.forEach((guild) => {
+    client.guilds.forEach(async (guild) => {
+        await dbUtilities.execute("CALL addServer(\"" + guild.id + "\")")
+
         var wakeChannel = conf.wakeChannels.find((element) => {
             return element.serverId == guild.id;
         });
@@ -51,23 +52,15 @@ client.on("ready", () => {
 });
 
 // Triggers when the bot receives a message
-client.on("message", (message) => {
+client.on("message", async (message) => {
     if(!message.content.startsWith(conf.prefix)) return;
 
-    var command = commands.commands.find((element) => {
-        return element.name == message.content.substr(conf.prefixlen).split(' ')[0];
-    });
+    var command = message.content.substr(conf.prefixlen).split(' ')[0];
 
-    var user = users.users.find((element) => {
-        return element.id == message.author.id && element.server == message.guild.id;
-    });
+    var query = await dbUtilities.canExecute(message.author.id, message.guild.id, command);
 
-    if(!user){
-        user = {"id": message.author.id, "grade":"3"};
-    }
+    if(query){
 
-    if(command && parseInt(command.grade) >= parseInt(user.grade)){
-        command = message.content.substr(conf.prefixlen).split(' ')[0];
         switch(command){
 
             case 'ping':
@@ -103,11 +96,7 @@ client.on("message", (message) => {
                 break;
     
             case 'register':
-                if(user.grade == "3")
-                    user_management.register(message, users);
-                else
-                    message.channel.send('You are already registered :confused:');
-                break;
+               user_management.register(message);
 
             case 'setWake':
                 bot_management.setWake(message, conf);
