@@ -1,4 +1,5 @@
 const { RichEmbed } = require('discord.js');
+var dbUtilities = require('../../conf/database.js');
 
 // When bot receives 'ping', answers 'pong'
 exports.ping = (message) => message.channel.send("PONG !")
@@ -43,4 +44,21 @@ exports.who = (message, users) => {
     else{
         message.channel.send("User not registered");
     }
+}
+
+exports.help = async (message) => {
+
+    var query = await dbUtilities.execute("SELECT description FROM commands WHERE id=\"" + message.content.split(' ')[1] + "\"");
+
+    if(query){
+        var reply = new RichEmbed()
+        .setTitle(message.content.split(' ')[1])
+        .setDescription(query[0].description);
+
+        message.channel.send(reply);
+    }
+    else{
+        message.channel.send("Woops..! It seems that this command doesn't exist... :poop:");
+    }
+    
 }

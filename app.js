@@ -12,7 +12,6 @@ const fs = require("fs");
 
 let conf = JSON.parse(fs.readFileSync("./conf/config.json", "utf8"));
 let commands = JSON.parse(fs.readFileSync("./conf/commands.json", "utf8"));
-let users = JSON.parse(fs.readFileSync("./conf/users.json", "utf8"));
 
 const client = new Client();
 
@@ -87,10 +86,6 @@ client.on("message", async (message) => {
                 misc.spam(message, conf);
                 break;
     
-            case 'grant':
-                bot_management.grant(message, users);
-                break;
-    
             case 'who':
                 misc.who(message, users);
                 break;
@@ -104,6 +99,14 @@ client.on("message", async (message) => {
 
             case 'nextUpdate':
                 bot_management.nextUpdate(message, conf);
+                break;
+
+            case 'help':
+                misc.help(message);
+                break;
+
+            case 'grant':
+                bot_management.grant(message);
                 break;
         }
     }

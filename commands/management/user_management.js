@@ -23,8 +23,8 @@ exports.kick = (message) => {
 exports.avatar = (message) => message.channel.send(new Attachment(message.author.avatarURL.toString()));
 
 exports.register = async (message) => {
-    /*users.users.push({"id": message.author.id, "grade": "2", "server": message.guild.id});
-    confSaver.save(users, "./conf/users.json")*/
+    
+    
     var query = await dbUtilities.execute("SELECT addUser(\"" + message.author.id + "\",\"" + message.guild.id + "\") AS result");
 
     if(query != false && query[0].result){

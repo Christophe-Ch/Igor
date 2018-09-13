@@ -1,6 +1,8 @@
 const confSaver = require("./conf");
 const { RichEmbed } = require('discord.js');
 
+var dbUtilities = require('../../conf/database.js');
+
 // Changes the prefix that triggers the bot
 exports.prefix = (message, conf) => {
     const arg = message.content.split(' ')[1];
@@ -15,18 +17,14 @@ exports.prefix = (message, conf) => {
 }
 
 // Adds a new granted user
-exports.grant = (message, users) => {
-    var user = users.users.find((element) => {
-        return element.id == message.mentions.users.first().id && element.server == message.guild.id;
-    });
+exports.grant = async (message) => {
+    var rank = message.content.split(' ')[2];
+    if(!isNaN(rank) && parseInt(rank) < 3 && parseInt(rank) >= 0){
+        
+        await dbUtilities.execute("CALL setRank(\"" + message.mentions.users.first().id + "\", \"" + message.guild.id + "\"," + rank + ")");
+            
+        message.channel.send(message.mentions.users.first().username + " promoted to rank " + rank + "! :tada:");
 
-    if(user && user.grade != "0"){
-        var rank = message.content.split(' ')[2];
-        if(!isNaN(rank) && parseInt(rank) < 3 && parseInt(rank) >= 0){
-            user.grade = rank;
-            confSaver.save(users, "./conf/users.json");
-            message.channel.send(message.mentions.users.first().username + " promoted to rank " + rank + "! :tada:");
-        }
     }
 }
 
