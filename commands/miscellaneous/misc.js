@@ -4,13 +4,6 @@ var dbUtilities = require('../../conf/database.js');
 // When bot receives 'ping', answers 'pong'
 exports.ping = (message) => message.channel.send("PONG !")
 
-// Counts from a specific number down to zero
-exports.count = (message) => {
-    const arg = message.content.split(' ')[1];
-    if(typeof arg !== "undefined" && arg > 0 && arg <= 10)
-        message.channel.send("ig-count " + (parseInt(arg) - 1));
-}
-
 // Sends a message to all the channels of the server
 exports.spam = (message, conf) => {
     const mess = message.content.slice(conf.prefixlen + 4); 

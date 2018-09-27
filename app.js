@@ -66,10 +66,6 @@ client.on("message", async (message) => {
                 misc.ping(message);
                 break;
     
-            case 'count':
-                misc.count(message);
-                break;
-    
             case 'avatar':
                 user_management.avatar(message);
                 break;
