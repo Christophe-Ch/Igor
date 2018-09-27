@@ -1,5 +1,7 @@
 const { Attachment } = require('discord.js');
 const confSaver = require("./conf");
+
+var colors = require('../../conf/colors.json')
 var dbUtilities = require('../../conf/database.js');
 
 /* Kicks a specific user
@@ -11,16 +13,24 @@ exports.kick = (message) => {
         const member = message.guild.member(kicked);
         if(member){
             member.kick("Igor is always right")
-            .catch(() => message.channel.send("That user is too strong for me..."));
+            .catch(() => message.channel.send({embed: {
+                color: parseInt(colors.danger, 16), 
+                description: "That user is too strong for me..."
+            }}));
         }
     }
     else{
-        message.channel.send("You have to mention the user to kick :confused:");
+        message.channel.send({embed: {
+            color: parseInt(colors.danger, 16), 
+            description: "You have to mention the user to kick :confused:"
+        }});
     }
 }
 
 // Sends back the avatar of the author
-exports.avatar = (message) => message.channel.send(new Attachment(message.author.avatarURL.toString()));
+exports.avatar = (message) => message.channel.send({embed: {
+    thumbnail: message.author.avatarURL.toString()
+}});
 
 exports.register = async (message) => {
     
@@ -28,9 +38,15 @@ exports.register = async (message) => {
     var query = await dbUtilities.execute("SELECT addUser(\"" + message.author.id + "\",\"" + message.guild.id + "\") AS result");
 
     if(query != false && query[0].result){
-        message.channel.send(message.author.username + " joined us ! :tada:");
+        message.channel.send({embed: {
+            color: parseInt(colors.success, 16),
+            description: message.author.username + " joined us ! :tada:"
+        }});
     }
     else{
-        message.channel.send("You are already registered... :confused:");
+        message.channel.send({embed: {
+            color: parseInt(colors.warning, 16),
+            description: "You are already registered... :confused:"
+        }});
     }
 }

@@ -1,6 +1,6 @@
 const confSaver = require("./conf");
-const { RichEmbed } = require('discord.js');
 
+var colors = require('../../conf/colors.json')
 var dbUtilities = require('../../conf/database.js');
 
 // Changes the prefix that triggers the bot
@@ -12,7 +12,10 @@ exports.prefix = (message, conf) => {
 
         confSaver.save(conf, "./conf/config.json");
 
-        message.channel.send("New prefix : " + arg);
+        message.channel.send({embed: {
+            color: parseInt(colors.success),
+            description: "New prefix : " + arg
+        }});
     }
 }
 
@@ -21,9 +24,13 @@ exports.grant = async (message) => {
     var rank = message.content.split(' ')[2];
     if(!isNaN(rank) && parseInt(rank) < 3 && parseInt(rank) >= 0){
         
-        await dbUtilities.execute("CALL setRank(\"" + message.mentions.users.first().id + "\", \"" + message.guild.id + "\"," + rank + ")");
+        await dbUtilities.execute("CALL setRank(" + message.mentions.users.first().id + ", " + message.guild.id + ", " + rank + ")");
             
-        message.channel.send(message.mentions.users.first().username + " promoted to rank " + rank + "! :tada:");
+        message.channel.send({embed: {
+            color: parseInt(colors.success, 16), 
+            title: "Lil' promotion !",
+            description: message.mentions.users.first().username + " promoted to rank " + rank + "! :tada:"
+        }});
 
     }
 }
@@ -43,10 +50,8 @@ exports.setWake = (message, conf) => {
     confSaver.save(conf, "./conf/config.json");
 }
 
-exports.nextUpdate = (message, conf) => {
-    var reply = new RichEmbed()
-    .setTitle("Next update !")
-    .setDescription(conf.incoming);
-
-    message.channel.send(reply);
-}
+exports.nextUpdate = (message, conf) => message.channel.send({embed: {
+    color: parseInt(colors.info, 16), 
+    title: "What's coming next ?", 
+    description: conf.incoming
+}});

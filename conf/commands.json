@@ -13,6 +13,7 @@
         
         {"name": "register","grade": "3"},
         {"name": "or","grade":"3"},
-        {"name": "nextUpdate","grade":"3"}
+        {"name": "nextUpdate","grade":"3"},
+        {"name": "help","grade":"3"}
     ]
 }

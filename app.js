@@ -6,18 +6,20 @@ let user_management = require('./commands/management/user_management');
 let bot_management = require('./commands/management/bot_management');
 let misc = require('./commands/miscellaneous/misc');
 
+// Discord
 const { Client } = require('discord.js');
 
+// File system
 const fs = require("fs");
 
+// Configuration
 let conf = JSON.parse(fs.readFileSync("./conf/config.json", "utf8"));
-let commands = JSON.parse(fs.readFileSync("./conf/commands.json", "utf8"));
+var colors = require('./conf/colors.json');
 
 const client = new Client();
 
 // Triggers when the bot starts
 client.on("ready", () => {
-    console.log("I am ready!");
     client.user.setActivity("doing some stuff bro");
 
     // Database
@@ -34,7 +36,7 @@ client.on("ready", () => {
             });
 
             if(channel){
-                channel.send("Hello world ! :D");
+                channel.send({embed: {color: parseInt(colors.info, 16), description: "Hello world ! :D"}});
             }
             else{
                 console.log("Invalid wake channel for server " + guild.name + " (" + guild.id + ")");
@@ -45,7 +47,7 @@ client.on("ready", () => {
         }
     })
 
-    
+    console.log("I am ready!");
 });
 
 // Triggers when the bot joins a new server
@@ -57,6 +59,7 @@ client.on("guildCreate", async (guild) => {
 // Triggers when the bot receives a message
 client.on("message", async (message) => {
     if(!message.content.startsWith(conf.prefix)) return;
+    if(message.author.bot) return;
 
     var command = message.content.substr(conf.prefixlen).split(' ')[0];
 
@@ -87,7 +90,7 @@ client.on("message", async (message) => {
                 break;
     
             case 'who':
-                misc.who(message, users);
+                misc.who(message);
                 break;
     
             case 'register':
@@ -101,6 +104,7 @@ client.on("message", async (message) => {
                 bot_management.nextUpdate(message, conf);
                 break;
 
+            case 'h':
             case 'help':
                 misc.help(message);
                 break;
@@ -111,7 +115,10 @@ client.on("message", async (message) => {
         }
     }
     else{
-        message.channel.send("You don't have the right to execute this command or it doesn't exist... :poop:");
+        message.channel.send({embed: { 
+            color: parseInt(colors.danger, 16), 
+            description: "You don't have the right to execute this command or it doesn't exist... :poop:"
+        }});
     }
 
     
