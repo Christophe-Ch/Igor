@@ -25,8 +25,6 @@ client.on("ready", () => {
 
     // Wake message
     client.guilds.forEach(async (guild) => {
-        await dbUtilities.execute("CALL addServer(\"" + guild.id + "\")")
-
         var wakeChannel = conf.wakeChannels.find((element) => {
             return element.serverId == guild.id;
         });
@@ -48,6 +46,12 @@ client.on("ready", () => {
     })
 
     
+});
+
+// Triggers when the bot joins a new server
+client.on("guildCreate", async (guild) => {
+    await dbUtilities.execute("CALL addServer(\"" + guild.id + "\")");
+    console.log("Just joined a new server !");
 });
 
 // Triggers when the bot receives a message
