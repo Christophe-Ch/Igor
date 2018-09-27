@@ -1,4 +1,4 @@
-const { Attachment } = require('discord.js');
+const { Attachment, RichEmbed } = require('discord.js');
 const confSaver = require("./conf");
 
 var colors = require('../../conf/colors.json')
@@ -28,12 +28,15 @@ exports.kick = (message) => {
 }
 
 // Sends back the avatar of the author
-exports.avatar = (message) => message.channel.send({embed: {
-    thumbnail: message.author.avatarURL.toString()
-}});
+exports.avatar = (message) => {
+    var embed = new RichEmbed()
+    .setColor(colors.info)
+    .setImage(message.author.avatarURL.toString().split('?')[0]);
+
+    message.channel.send(embed);
+}
 
 exports.register = async (message) => {
-    
     
     var query = await dbUtilities.execute("SELECT addUser(\"" + message.author.id + "\",\"" + message.guild.id + "\") AS result");
 
