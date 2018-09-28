@@ -68,55 +68,55 @@ client.on("message", async (message) => {
     var query = await dbUtilities.canExecute(message.author.id, message.guild.id, command);
 
     if(query){
-
         switch(command){
 
-            case 'ping':
-                misc.ping(message);
-                break;
-    
-            case 'avatar':
-                user_management.avatar(message);
-                break;
-    
-            case 'kick':
-                user_management.kick(message);
-                break;
-    
-            case 'prefix':
-                bot_management.prefix(message, conf);
-                break;
-    
-            case 'spam':
-                misc.spam(message, conf);
-                break;
-    
-            case 'who':
-                misc.who(message);
-                break;
-    
-            case 'register':
-               user_management.register(message);
-
-            case 'setWake':
-                bot_management.setWake(message, conf);
-                break;
-
-            case 'nextUpdate':
-                bot_management.nextUpdate(message, conf);
+            case 'commands':
+                user_management.commands(message);
                 break;
 
             case 'h':
             case 'help':
                 misc.help(message);
                 break;
+            
+            case 'nextUpdate':
+                bot_management.nextUpdate(message, conf);
+                break;
+
+            case 'register':
+                user_management.register(message);
+                break;
+
+            case 'who':
+                misc.who(message);
+                break;
+
+            case 'ping':
+                misc.ping(message);
+                break;
+
+            case 'avatar':
+                user_management.avatar(message);
+                break;
+
+            case 'spam':
+                misc.spam(message, conf);
+                break;
+
+            case 'kick':
+                user_management.kick(message);
+                break;
+
+            case 'setWake':
+                bot_management.setWake(message, conf);
+                break;
 
             case 'grant':
                 bot_management.grant(message);
                 break;
 
-            case 'commands':
-                user_management.commands(message);
+            case 'prefix':
+                bot_management.prefix(message, conf);
                 break;
         }
     }
