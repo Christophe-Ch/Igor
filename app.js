@@ -114,6 +114,10 @@ client.on("message", async (message) => {
             case 'grant':
                 bot_management.grant(message);
                 break;
+
+            case 'commands':
+                user_management.commands(message);
+                break;
         }
     }
     else{

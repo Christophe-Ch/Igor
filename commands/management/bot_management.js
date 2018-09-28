@@ -13,7 +13,7 @@ exports.prefix = (message, conf) => {
         confSaver.save(conf, "./conf/config.json");
 
         message.channel.send({embed: {
-            color: parseInt(colors.success),
+            color: parseInt(colors.success, 16),
             description: "New prefix : " + arg
         }});
     }
@@ -26,13 +26,17 @@ exports.grant = async (message) => {
         
         await dbUtilities.execute("CALL setRank(" + message.mentions.users.first().id + ", " + message.guild.id + ", " + rank + ")");
             
-        message.channel.send({embed: {
+        return message.channel.send({embed: {
             color: parseInt(colors.success, 16), 
             title: "Lil' promotion !",
             description: message.mentions.users.first().username + " promoted to rank " + rank + "! :tada:"
         }});
-
     }
+
+    message.channel.send({embed: {
+        color: parseInt(color.success, 16),
+        description: "Woops, something went wrong... :poop:"
+    }})
 }
 
 exports.setWake = (message, conf) => {
