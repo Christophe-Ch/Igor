@@ -26,26 +26,28 @@ client.on("ready", () => {
     dbUtilities.configure(fs);
 
     // Wake message
-    client.guilds.forEach(async (guild) => {
-        var wakeChannel = conf.wakeChannels.find((element) => {
-            return element.serverId == guild.id;
-        });
-        if(wakeChannel){
-            var channel = guild.channels.find((element) => {
-                return element.id == wakeChannel.channelId;
+    if(conf.wakeMessageEnabled){
+        client.guilds.forEach(async (guild) => {
+            var wakeChannel = conf.wakeChannels.find((element) => {
+                return element.serverId == guild.id;
             });
-
-            if(channel){
-                channel.send({embed: {color: parseInt(colors.info, 16), description: "Hello world ! :D"}});
+            if(wakeChannel){
+                var channel = guild.channels.find((element) => {
+                    return element.id == wakeChannel.channelId;
+                });
+    
+                if(channel){
+                    channel.send({embed: {color: parseInt(colors.info, 16), description: "Hello world ! :D"}});
+                }
+                else{
+                    console.log("Invalid wake channel for server " + guild.name + " (" + guild.id + ")");
+                }
             }
             else{
-                console.log("Invalid wake channel for server " + guild.name + " (" + guild.id + ")");
+                console.log("No wake channel has been registered for server " + guild.name + " (" + guild.id + ")");
             }
-        }
-        else{
-            console.log("No wake channel has been registered for server " + guild.name + " (" + guild.id + ")");
-        }
-    })
+        })
+    }
 
     console.log("I am ready!");
 });
