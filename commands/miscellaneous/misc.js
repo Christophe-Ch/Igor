@@ -61,7 +61,7 @@ exports.who = async (message) => {
             thumbnail: {
                 url: user.avatarURL
             },
-            description: "Wanna know some things about " + user.username + "?\nThere you go !",
+            description: "Wanna know some things about " + user.username + "?\nThere you go!",
             fields: [
                 {
                     name: "\u200b",
@@ -82,12 +82,12 @@ exports.who = async (message) => {
                     value: playing
                 },
                 {
-                    name: "**Status :**",
+                    name: "**Status:**",
                     value: status,
                     inline: true
                 },
                 {
-                    name: "**Registered the :**",
+                    name: "**Registered the:**",
                     value: (new Date(user.createdAt)).toLocaleDateString("en-EN"),
                     inline: true
                 },
@@ -96,12 +96,12 @@ exports.who = async (message) => {
                     value: "__**What about this server?**__"
                 },
                 {
-                    name: "**Joined us the :**",
+                    name: "**Joined us the:**",
                     value: registeredAt,
                     inline: true
                 },
                 {
-                    name: "**Rank :**",
+                    name: "**Rank:**",
                     value: userDetails.grade,
                     inline: true
                 }
@@ -116,6 +116,44 @@ exports.who = async (message) => {
     else {
         message.channel.send({ embed: { color: parseInt(colors.danger, 16), description: "I don't know this user, sorry... :poop:" } });
     }
+}
+
+exports.or = (message, prefix) => {
+
+    const content = {
+        color: parseInt(colors.info, 16),
+        title: ":sparkles: __Add me to your server !__",
+        url: "https://discordapp.com/oauth2/authorize?client_id=484450144679362590&scope=bot",
+        description: "Wanna know some things about me?\nThere you go!",
+        fields: [
+            {
+                name: "\u200b",
+                value: "__**Everything you wanna know about me!**__"
+            },
+            {
+                name: ":baby: My name is Igor...",
+                value: "... and my creator is [Christophe CHICHMANIAN](https://www.christophech.com) (aka Hyxotis)!"
+              },
+              {
+                name: ":wrench: Why do I exist?",
+                value: "I have some basic (and generic) commands but maybe one day I'll have my own special purpose!"
+              },
+              {
+                name: "\u200b",
+                value: "__**:computer: How to use me?**__"
+              },
+              {
+                name: "```" + prefix + "-<command>```",
+                value: "If you want to know what commands you can use, just type... ```" + prefix + "-commands```"
+              }
+        ],
+        footer: {
+            "text": "Igor - ⓒ 2018 | Made with 💛 & Javascript"
+        }
+    };
+
+    message.channel.send({embed: content});
+
 }
 
 exports.help = async (message) => {

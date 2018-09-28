@@ -80,6 +80,7 @@ client.on("message", async (message) => {
                 break;
 
             case 'or':
+                misc.or(message, conf.prefix);
                 break;
             
             case 'nextUpdate':
