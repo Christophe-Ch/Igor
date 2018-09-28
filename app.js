@@ -78,6 +78,9 @@ client.on("message", async (message) => {
             case 'help':
                 misc.help(message);
                 break;
+
+            case 'or':
+                break;
             
             case 'nextUpdate':
                 bot_management.nextUpdate(message, conf);
