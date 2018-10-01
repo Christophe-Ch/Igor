@@ -44,7 +44,7 @@ exports.canExecute = async (userId, serverId, command) => {
     var commands = result[0].commands.split(',');
 
     for(let i = 0; i < commands.length; i++){
-        if(commands[i] == command){
+        if(commands[i].toLowerCase() == command){
             return true;
         }
     }

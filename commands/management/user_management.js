@@ -1,5 +1,5 @@
 const { Attachment, RichEmbed } = require('discord.js');
-const confSaver = require("./conf");
+const confSaver = require("../conf");
 
 var colors = require('../../conf/colors.json')
 var dbUtilities = require('../../conf/database.js');
