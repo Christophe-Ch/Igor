@@ -4,7 +4,6 @@ var dbUtilities = require('./conf/database.js');
 // Command files
 let user_management = require('./commands/management/user_management');
 let bot_management = require('./commands/management/bot_management');
-let misc = require('./commands/miscellaneous/misc');
 
 // Discord
 const Discord = require('discord.js');
@@ -15,7 +14,7 @@ const client = new Discord.Client();
 const fs = require("fs");
 
 // Configuration
-let conf = JSON.parse(fs.readFileSync("./conf/config.json", "utf8"));
+let conf = require("./conf/config.json");
 var colors = require('./conf/colors.json');
 
 // Triggers when the bot starts
