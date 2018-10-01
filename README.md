@@ -4,7 +4,7 @@ Igor is a basic Discord bot. It doesn't have that much functionalities, but is g
 
 ## Add Igor to your guild :sparkles:
 
-Just click [this link](https://discordapp.com/oauth2/authorize?client_id=484450144679362590&scope=bot) and you'll be prompted to chose your server!
+Just click [this link](https://discordapp.com/oauth2/authorize?client_id=484450144679362590&scope=bot) and you'll be prompted to choose your server!
 
 ## Ranks :tophat:
 
