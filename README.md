@@ -9,6 +9,7 @@ Just click [this link](https://discordapp.com/oauth2/authorize?client_id=4844501
 ## Ranks :tophat:
 
 There are 4 ranks :
+
 0. Administrator
 1. Moderator
 2. User
