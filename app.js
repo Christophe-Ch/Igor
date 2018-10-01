@@ -7,7 +7,9 @@ let bot_management = require('./commands/management/bot_management');
 let misc = require('./commands/miscellaneous/misc');
 
 // Discord
-const { Client } = require('discord.js');
+const Discord = require('discord.js');
+const client = new Discord.Client();
+
 
 // File system
 const fs = require("fs");
@@ -15,8 +17,6 @@ const fs = require("fs");
 // Configuration
 let conf = JSON.parse(fs.readFileSync("./conf/config.json", "utf8"));
 var colors = require('./conf/colors.json');
-
-const client = new Client();
 
 // Triggers when the bot starts
 client.on("ready", () => {
@@ -63,65 +63,22 @@ client.on("message", async (message) => {
     if(!message.content.startsWith(conf.prefix)) return;
     if(message.author.bot) return;
 
-    var command = message.content.substr(conf.prefixlen).split(' ')[0];
+    const args = message.content.slice(conf.prefixlen).trim().split(/ +/g);
+    const command = args.shift().toLowerCase();
 
     var query = await dbUtilities.canExecute(message.author.id, message.guild.id, command);
 
     if(query){
-        switch(command){
-
-            case 'commands':
-                user_management.commands(message);
-                break;
-
-            case 'h':
-            case 'help':
-                misc.help(message);
-                break;
-
-            case 'or':
-                misc.or(message, conf.prefix);
-                break;
-            
-            case 'nextUpdate':
-                bot_management.nextUpdate(message, conf);
-                break;
-
-            case 'register':
-                user_management.register(message);
-                break;
-
-            case 'who':
-                misc.who(message);
-                break;
-
-            case 'ping':
-                misc.ping(message);
-                break;
-
-            case 'avatar':
-                user_management.avatar(message);
-                break;
-
-            case 'spam':
-                misc.spam(message, conf);
-                break;
-
-            case 'kick':
-                user_management.kick(message);
-                break;
-
-            case 'setWake':
-                bot_management.setWake(message, conf);
-                break;
-
-            case 'grant':
-                bot_management.grant(message);
-                break;
-
-            case 'prefix':
-                bot_management.prefix(message, conf);
-                break;
+        try{
+            let commandFile = require(`./commands/${command}.js`);
+            commandFile.run(client, message, args);
+        }
+        catch (err){
+            console.error(err);
+            message.channel.send({embed: { 
+                color: parseInt(colors.danger, 16), 
+                description: "Something wrong happened... :poop:"
+            }});
         }
     }
     else{
@@ -130,7 +87,6 @@ client.on("message", async (message) => {
             description: "You don't have the right to execute this command or it doesn't exist... :poop:"
         }});
     }
-
     
 });
 
