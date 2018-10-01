@@ -1,10 +1,6 @@
 // Database
 var dbUtilities = require('./conf/database.js');
 
-// Command files
-let user_management = require('./commands/management/user_management');
-let bot_management = require('./commands/management/bot_management');
-
 // Discord
 const Discord = require('discord.js');
 const client = new Discord.Client();
