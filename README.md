@@ -30,7 +30,7 @@ For example, you cannot call `ig-kick` unless you are Moderator.
 
 You need to have [Node](https://nodejs.org/en/download/) installed on your computer.
 
-### Database :file_folder:
+### Database
 
 I could have let you do some reverse ingeneering, but [here](https://gist.github.com/ChriisX/37da7db70152004ce70a9d45d35675bd) is a SQL file that builds your database.
 The technology I'm using here is MySQL.
