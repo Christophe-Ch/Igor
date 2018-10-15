@@ -1,5 +1,5 @@
 // Database
-var dbUtilities = require('./conf/database.js');
+const dbUtilities = require('./conf/database.js');
 
 // Discord
 const Discord = require('discord.js');
@@ -10,8 +10,8 @@ const client = new Discord.Client();
 const fs = require("fs");
 
 // Configuration
-let conf = require("./conf/config.json");
-var colors = require('./conf/colors.json');
+const conf = require("./conf/config.json");
+const colors = require('./conf/colors.json');
 
 // Triggers when the bot starts
 client.on("ready", () => {
@@ -74,6 +74,7 @@ client.on("message", async (message) => {
                 color: parseInt(colors.danger, 16), 
                 description: "Something wrong happened... :poop:"
             }});
+            
         }
     }
     else{

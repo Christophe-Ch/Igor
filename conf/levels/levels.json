@@ -1,0 +1,45 @@
+{
+    "levels": [
+        {
+            "xp" : 1,
+            "name": "Newbie :new:",
+            "description": "Welcome, human!"
+        },
+        {
+            "xp": 100,
+            "name": "Student :school_satchel:",
+            "description": "Ready to learn about war?"
+        }
+        ,
+        {
+            "xp": 1000,
+            "name": "Young soldier :crossed_swords:",
+            "description": "This is real life!"
+        },
+        {
+            "xp": 5000,
+            "name": "Soldier :gun:",
+            "description": "It's a good fighter we've got here!"
+        },
+        {
+            "xp": 10000,
+            "name": "Veteran :bomb:",
+            "description": "Among the best!"
+        },
+        {
+            "xp": 50000,
+            "name": "Hero :boxing_glove:",
+            "description": "Everyone knows your name in this country!"
+        },
+        {
+            "xp": 100000,
+            "name": "Legend :book:",
+            "description": "Do you remember when you were only a student?"
+        },
+        {
+            "xp": 200000,
+            "name": "God :cross:",
+            "description": "I knew it from the beginning you are special. Congratulations!"
+        }
+    ]
+}

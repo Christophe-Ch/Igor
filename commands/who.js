@@ -1,9 +1,10 @@
 var colors = require('../conf/colors.json');
 var dbUtilities = require('../conf/database.js');
+var levels = require('../conf/levels/levels.js');
 
 exports.run = async (client, message, args) => {
 
-    var user = message.mentions.users.first();
+    var user = message.mentions.users.size > 0 ? message.mentions.users.first() : message.author;
     var member = message.guild.members.get(user.id);
 
     var query = await dbUtilities.execute("CALL getUser(\"" + user.id + "\", \"" + message.guild.id + "\")");
@@ -12,7 +13,8 @@ exports.run = async (client, message, args) => {
         var userDetails = query[0][0];
 
         var playing = member.presence.game != null ? member.presence.game.name : "Nope :innocent:";
-        var registeredAt = user.registeredAt != null ? (new Date(userDetails.registeredAt)).toLocaleDateString("en-EN") : "You won't ever know...";
+        var registeredAt = userDetails.registeredAt != null ? (new Date(userDetails.registeredAt)).toLocaleDateString("en-EN") : "You won't ever know...";
+        var level = await levels.getLevel(user.id);
         var status;
 
         switch(user.presence.status){
@@ -80,6 +82,10 @@ exports.run = async (client, message, args) => {
                     name: "**Rank:**",
                     value: userDetails.grade,
                     inline: true
+                },
+                {
+                    name: "**Level:**",
+                    value: level.name + "\n_" + level.description + "_"
                 }
             ],
             footer: {
