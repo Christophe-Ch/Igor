@@ -1,10 +1,9 @@
 // Database
-const dbUtilities = require('./conf/database.js');
+var dbUtilities = require('./conf/database.js');
 
 // Discord
 const Discord = require('discord.js');
 const client = new Discord.Client();
-
 
 // File system
 const fs = require("fs");
@@ -12,6 +11,9 @@ const fs = require("fs");
 // Configuration
 const conf = require("./conf/config.json");
 const colors = require('./conf/colors.json');
+
+// Misc
+const levels = require('./conf/levels/levels.js');
 
 // Triggers when the bot starts
 client.on("ready", () => {
@@ -55,7 +57,11 @@ client.on("guildCreate", async (guild) => {
 
 // Triggers when the bot receives a message
 client.on("message", async (message) => {
-    if(!message.content.startsWith(conf.prefix)) return;
+    if(!message.content.startsWith(conf.prefix) && !message.author.bot) {
+        levels.giveXp(message, 1);
+        return;
+    }
+    
     if(message.author.bot) return;
 
     const args = message.content.slice(conf.prefixlen).trim().split(/ +/g);
@@ -66,6 +72,7 @@ client.on("message", async (message) => {
     if(query){
         try{
             let commandFile = require(`./commands/${command}.js`);
+            levels.giveXp(message, 10);
             commandFile.run(client, message, args);
         }
         catch (err){
@@ -74,7 +81,7 @@ client.on("message", async (message) => {
                 color: parseInt(colors.danger, 16), 
                 description: "Something wrong happened... :poop:"
             }});
-            
+            levels.giveXp(message, 1);
         }
     }
     else{
@@ -82,6 +89,7 @@ client.on("message", async (message) => {
             color: parseInt(colors.danger, 16), 
             description: "You don't have the right to execute this command or it doesn't exist... :poop:"
         }});
+        levels.giveXp(message, 1);
     }
     
 });
